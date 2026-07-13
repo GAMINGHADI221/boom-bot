@@ -637,21 +637,21 @@ def login():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADMIN RAHMAN | LOGIN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --red-1: #ff0844;
             --red-2: #ff4e50;
             --red-3: #ff2e93;
-            --glass-bg: rgba(12, 2, 4, 0.65);
-            --glass-border: rgba(255, 8, 68, 0.25);
+            --glass-bg: rgba(8, 8, 12, 0.75);
+            --glass-border: rgba(255, 8, 68, 0.15);
             --text-primary: #ffebf0;
-            --text-secondary: rgba(255, 235, 240, 0.7);
+            --text-secondary: rgba(255, 235, 240, 0.55);
         }
         body {
             min-height: 100vh;
-            background: #0a0a0f;
+            background: #040406;
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             display: flex;
@@ -663,30 +663,52 @@ def login():
         #bg-canvas, #crimson-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none; opacity: 0.6;
+            z-index: 0; pointer-events: none; opacity: 0.5;
         }
         #crimson-canvas { mix-blend-mode: screen; }
         .aurora {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
-            background: radial-gradient(ellipse at 50% 50%, rgba(255, 8, 68, 0.08) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 50% 50%, rgba(255, 8, 68, 0.06) 0%, transparent 60%);
         }
         .login-card {
             position: relative;
             z-index: 2;
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px 35px;
+            border-radius: 28px;
+            padding: 45px 40px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 8, 68, 0.05);
-            transition: all 0.4s;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(255, 8, 68, 0.03);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-align: center;
+            overflow: hidden;
+        }
+        /* Glowing tracing beam around border */
+        .login-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            padding: 1.5px;
+            background: linear-gradient(135deg, transparent 30%, var(--red-1) 50%, transparent 70%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            background-size: 200% 200%;
+            animation: borderBeam 4s linear infinite;
+            opacity: 0.5;
+        }
+        @keyframes borderBeam {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         .login-card:hover {
-            border-color: rgba(255, 8, 68, 0.5);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 8, 68, 0.1);
+            border-color: rgba(255, 8, 68, 0.4);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 8, 68, 0.08);
             transform: translateY(-5px);
         }
         .logo-wrapper {
@@ -696,110 +718,115 @@ def login():
         }
         .logo-glow {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 120px; height: 120px;
-            background: radial-gradient(circle, rgba(255, 8, 68, 0.3), transparent 70%);
-            filter: blur(20px);
+            width: 140px; height: 140px;
+            background: radial-gradient(circle, rgba(255, 8, 68, 0.25), transparent 70%);
+            filter: blur(25px);
             z-index: -1;
         }
         .logo-icon {
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: var(--red-1);
             text-shadow: 0 0 35px rgba(255, 8, 68, 0.7);
             animation: boltGlow 3s ease-in-out infinite alternate;
         }
         @keyframes boltGlow {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            100% { transform: scale(1.05); opacity: 1; }
+            0% { transform: scale(0.95) rotate(-3deg); opacity: 0.85; }
+            100% { transform: scale(1.05) rotate(3deg); opacity: 1; }
         }
         h2 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
+            font-size: 2.1rem;
             font-weight: 900;
             letter-spacing: 2px;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--red-1), var(--red-2));
+            background: linear-gradient(135deg, var(--red-1), var(--red-2), var(--red-3));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 8, 68, 0.15);
         }
         .subtitle {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            margin-bottom: 30px;
-            letter-spacing: 4px;
+            margin-bottom: 35px;
+            letter-spacing: 6px;
             text-transform: uppercase;
+            font-weight: 600;
         }
         .input-group {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             text-align: left;
         }
         .input-group i {
             position: absolute;
-            left: 16px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-secondary);
             font-size: 1rem;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
         .input-group input {
             width: 100%;
-            padding: 14px 16px 14px 46px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 8, 68, 0.2);
-            background: rgba(0, 0, 0, 0.5);
+            padding: 16px 16px 16px 50px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 8, 68, 0.15);
+            background: rgba(0, 0, 0, 0.6);
             color: var(--text-primary);
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
         }
         .input-group input:focus {
             border-color: var(--red-1);
             box-shadow: 0 0 25px rgba(255, 8, 68, 0.15), inset 0 0 15px rgba(255, 8, 68, 0.05);
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
         }
         .input-group input:focus + i {
-            color: var(--red-1);
-            text-shadow: 0 0 10px rgba(255, 8, 68, 0.5);
+            color: var(--red-2);
+            transform: translateY(-50%) scale(1.1);
+            text-shadow: 0 0 15px rgba(255, 8, 68, 0.4);
         }
         .btn-login {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin-top: 10px;
-            background: linear-gradient(135deg, var(--red-1), var(--red-2));
+            background: linear-gradient(135deg, var(--red-1), var(--red-3), var(--red-2));
+            background-size: 200% auto;
             color: #fff;
-            box-shadow: 0 0 25px rgba(255, 8, 68, 0.25);
-            border: 1px solid rgba(255, 8, 68, 0.3);
-            transition: all 0.3s;
+            box-shadow: 0 5px 25px rgba(255, 8, 68, 0.3);
+            border: 1px solid rgba(255, 8, 68, 0.25);
+            transition: all 0.4s ease;
             font-family: 'Inter', sans-serif;
             position: relative;
             overflow: hidden;
         }
         .btn-login:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 35px rgba(255, 8, 68, 0.45);
+            box-shadow: 0 8px 35px rgba(255, 8, 68, 0.5);
+            background-position: right center;
         }
         .error-message {
-            background: rgba(255, 71, 87, 0.1);
-            border: 1px solid rgba(255, 71, 87, 0.25);
+            background: rgba(255, 71, 87, 0.08);
+            border: 1px solid rgba(255, 71, 87, 0.2);
             color: #ff6b6b;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 0.88rem;
+            margin-bottom: 22px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: shake 0.4s ease;
+            gap: 12px;
+            animation: shake 0.45s ease;
         }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -807,7 +834,7 @@ def login():
             75% { transform: translateX(6px); }
         }
         .btn-login .ripple {
-            position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3);
+            position: absolute; border-radius: 50%; background: rgba(255,255,255,0.35);
             transform: scale(0); animation: ripple 0.6s linear; pointer-events: none;
         }
         @keyframes ripple { to { transform: scale(4); opacity: 0; } }
@@ -841,9 +868,9 @@ def login():
                 <i class="fas fa-lock"></i>
             </div>
             <button type="submit" class="btn-login">Unlock Terminal</button>
-            <div style="margin-top: 20px; font-size: 0.85rem;">
+            <div style="margin-top: 25px; font-size: 0.85rem;">
                 <span style="color: var(--text-secondary);">Don't have an account? </span>
-                <a href="/register" style="color: var(--red-2); text-decoration: none; font-weight: 600;">Register Here</a>
+                <a href="/register" style="color: var(--red-2); text-decoration: none; font-weight: 700; transition: color 0.2s;" onmouseover="this.style.color='var(--red-3)'" onmouseout="this.style.color='var(--red-2)'">Register Here</a>
             </div>
         </form>
     </div>
@@ -993,21 +1020,21 @@ def register():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADMIN RAHMAN | REGISTER</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --red-1: #ff0844;
             --red-2: #ff4e50;
             --red-3: #ff2e93;
-            --glass-bg: rgba(12, 2, 4, 0.65);
-            --glass-border: rgba(255, 8, 68, 0.25);
+            --glass-bg: rgba(8, 8, 12, 0.75);
+            --glass-border: rgba(255, 8, 68, 0.15);
             --text-primary: #ffebf0;
-            --text-secondary: rgba(255, 235, 240, 0.7);
+            --text-secondary: rgba(255, 235, 240, 0.55);
         }
         body {
             min-height: 100vh;
-            background: #0a0a0f;
+            background: #040406;
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             display: flex;
@@ -1019,30 +1046,52 @@ def register():
         #bg-canvas, #crimson-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none; opacity: 0.6;
+            z-index: 0; pointer-events: none; opacity: 0.5;
         }
         #crimson-canvas { mix-blend-mode: screen; }
         .aurora {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
-            background: radial-gradient(ellipse at 50% 50%, rgba(255, 8, 68, 0.08) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 50% 50%, rgba(255, 8, 68, 0.06) 0%, transparent 60%);
         }
         .login-card {
             position: relative;
             z-index: 2;
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px 35px;
+            border-radius: 28px;
+            padding: 45px 40px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 8, 68, 0.05);
-            transition: all 0.4s;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(255, 8, 68, 0.03);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-align: center;
+            overflow: hidden;
+        }
+        /* Glowing tracing beam around border */
+        .login-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            padding: 1.5px;
+            background: linear-gradient(135deg, transparent 30%, var(--red-1) 50%, transparent 70%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            background-size: 200% 200%;
+            animation: borderBeam 4s linear infinite;
+            opacity: 0.5;
+        }
+        @keyframes borderBeam {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         .login-card:hover {
-            border-color: rgba(255, 8, 68, 0.5);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 8, 68, 0.1);
+            border-color: rgba(255, 8, 68, 0.4);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 8, 68, 0.08);
             transform: translateY(-5px);
         }
         .logo-wrapper {
@@ -1052,38 +1101,40 @@ def register():
         }
         .logo-glow {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 120px; height: 120px;
-            background: radial-gradient(circle, rgba(255, 8, 68, 0.3), transparent 70%);
-            filter: blur(20px);
+            width: 140px; height: 140px;
+            background: radial-gradient(circle, rgba(255, 8, 68, 0.25), transparent 70%);
+            filter: blur(25px);
             z-index: -1;
         }
         .logo-icon {
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: var(--red-1);
             text-shadow: 0 0 35px rgba(255, 8, 68, 0.7);
             animation: boltGlow 3s ease-in-out infinite alternate;
         }
         @keyframes boltGlow {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            100% { transform: scale(1.05); opacity: 1; }
+            0% { transform: scale(0.95) rotate(-3deg); opacity: 0.85; }
+            100% { transform: scale(1.05) rotate(3deg); opacity: 1; }
         }
         h2 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
+            font-size: 2.1rem;
             font-weight: 900;
             letter-spacing: 2px;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--red-1), var(--red-2));
+            background: linear-gradient(135deg, var(--red-1), var(--red-2), var(--red-3));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 8, 68, 0.15);
         }
         .subtitle {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            margin-bottom: 30px;
-            letter-spacing: 4px;
+            margin-bottom: 35px;
+            letter-spacing: 6px;
             text-transform: uppercase;
+            font-weight: 600;
         }
         .input-group {
             position: relative;
@@ -1092,70 +1143,73 @@ def register():
         }
         .input-group i {
             position: absolute;
-            left: 16px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-secondary);
             font-size: 1rem;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
         .input-group input {
             width: 100%;
-            padding: 14px 16px 14px 46px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 8, 68, 0.2);
-            background: rgba(0, 0, 0, 0.5);
+            padding: 16px 16px 16px 50px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 8, 68, 0.15);
+            background: rgba(0, 0, 0, 0.6);
             color: var(--text-primary);
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
         }
         .input-group input:focus {
             border-color: var(--red-1);
             box-shadow: 0 0 25px rgba(255, 8, 68, 0.15), inset 0 0 15px rgba(255, 8, 68, 0.05);
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
         }
         .input-group input:focus + i {
-            color: var(--red-1);
-            text-shadow: 0 0 10px rgba(255, 8, 68, 0.5);
+            color: var(--red-2);
+            transform: translateY(-50%) scale(1.1);
+            text-shadow: 0 0 15px rgba(255, 8, 68, 0.4);
         }
         .btn-login {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin-top: 10px;
-            background: linear-gradient(135deg, var(--red-1), var(--red-2));
+            background: linear-gradient(135deg, var(--red-1), var(--red-3), var(--red-2));
+            background-size: 200% auto;
             color: #fff;
-            box-shadow: 0 0 25px rgba(255, 8, 68, 0.25);
-            border: 1px solid rgba(255, 8, 68, 0.3);
-            transition: all 0.3s;
+            box-shadow: 0 5px 25px rgba(255, 8, 68, 0.3);
+            border: 1px solid rgba(255, 8, 68, 0.25);
+            transition: all 0.4s ease;
             font-family: 'Inter', sans-serif;
             position: relative;
             overflow: hidden;
         }
         .btn-login:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 35px rgba(255, 8, 68, 0.45);
+            box-shadow: 0 8px 35px rgba(255, 8, 68, 0.5);
+            background-position: right center;
         }
         .error-message {
-            background: rgba(255, 71, 87, 0.1);
-            border: 1px solid rgba(255, 71, 87, 0.25);
+            background: rgba(255, 71, 87, 0.08);
+            border: 1px solid rgba(255, 71, 87, 0.2);
             color: #ff6b6b;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 0.88rem;
+            margin-bottom: 22px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: shake 0.4s ease;
+            gap: 12px;
+            animation: shake 0.45s ease;
         }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -1163,7 +1217,7 @@ def register():
             75% { transform: translateX(6px); }
         }
         .btn-login .ripple {
-            position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3);
+            position: absolute; border-radius: 50%; background: rgba(255,255,255,0.35);
             transform: scale(0); animation: ripple 0.6s linear; pointer-events: none;
         }
         @keyframes ripple { to { transform: scale(4); opacity: 0; } }
@@ -1201,9 +1255,9 @@ def register():
                 <i class="fas fa-shield-alt"></i>
             </div>
             <button type="submit" class="btn-login">Create Account</button>
-            <div style="margin-top: 20px; font-size: 0.85rem;">
+            <div style="margin-top: 25px; font-size: 0.85rem;">
                 <span style="color: var(--text-secondary);">Already have an account? </span>
-                <a href="/login" style="color: var(--red-2); text-decoration: none; font-weight: 600;">Login Here</a>
+                <a href="/login" style="color: var(--red-2); text-decoration: none; font-weight: 700; transition: color 0.2s;" onmouseover="this.style.color='var(--red-3)'" onmouseout="this.style.color='var(--red-2)'">Login Here</a>
             </div>
         </form>
     </div>
@@ -1402,24 +1456,22 @@ def index():
         }
 
         :root {
-            /* Fiery Crimson Red animated palette */
             --gold-1: #ff0844;
             --gold-2: #ff4e50;
             --gold-3: #ff2e93;
             --gold-4: #d90429;
             --gold-5: #9b2226;
             --gold-6: #ef233c;
-            /* Glassmorphism */
-            --glass-bg: rgba(10, 2, 4, 0.72);
-            --glass-border: rgba(255, 8, 68, 0.2);
-            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.9);
+            --glass-bg: rgba(8, 8, 12, 0.72);
+            --glass-border: rgba(255, 8, 68, 0.18);
+            --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
             --text-primary: #ffebf0;
-            --text-secondary: rgba(255, 235, 240, 0.7);
+            --text-secondary: rgba(255, 235, 240, 0.55);
         }
 
         body {
             min-height: 100vh;
-            background: #050508;
+            background: #040406;
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
@@ -1434,31 +1486,31 @@ def index():
             display: block;
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.18) 50%);
             z-index: 10;
             background-size: 100% 4px;
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.35;
         }
 
         /* Sweeping Scanner Line */
         .scanner-line {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(255, 8, 68, 0.5), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 8, 68, 0.4), transparent);
             z-index: 5;
             pointer-events: none;
-            animation: scanAnimation 8s linear infinite;
+            animation: scanAnimation 10s linear infinite;
         }
         @keyframes scanAnimation {
-            0% { top: 0%; }
-            100% { top: 100%; }
+            0% { top: -5%; }
+            100% { top: 105%; }
         }
 
         #bg-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none; opacity: 0.45;
+            z-index: 0; pointer-events: none; opacity: 0.4;
         }
 
         #crimson-canvas {
@@ -1466,7 +1518,7 @@ def index():
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; pointer-events: none;
             mix-blend-mode: screen;
-            opacity: 0.7;
+            opacity: 0.65;
         }
 
         .aurora-overlay {
@@ -1480,14 +1532,14 @@ def index():
             animation: auroraFloat 25s ease-in-out infinite alternate;
         }
         @keyframes auroraFloat {
-            0% { transform: translateX(-3%) scale(1); opacity: 0.6; }
-            100% { transform: translateX(3%) scale(1.08); opacity: 1; }
+            0% { transform: translateX(-2%) scale(1); opacity: 0.7; }
+            100% { transform: translateX(2%) scale(1.05); opacity: 1; }
         }
 
         #loading-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #050508;
+            background: #040406;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -1519,9 +1571,9 @@ def index():
         }
         #loading-screen .progress-bar {
             width: 320px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 0 15px rgba(255, 8, 68, 0.15);
         }
@@ -1529,7 +1581,7 @@ def index():
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, var(--gold-1), var(--gold-3));
-            border-radius: 4px;
+            border-radius: 10px;
             animation: loadProgress 2.2s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
             box-shadow: 0 0 15px rgba(255, 8, 68, 0.5);
         }
@@ -1542,11 +1594,12 @@ def index():
         }
         .loading-sub {
             margin-top: 15px;
-            font-size: 0.85rem;
-            color: rgba(255, 235, 240, 0.4);
+            font-size: 0.8rem;
+            color: rgba(255, 235, 240, 0.35);
             letter-spacing: 3px;
             text-transform: uppercase;
             font-family: 'Inter', sans-serif;
+            font-weight: 500;
         }
 
         .app-container {
@@ -1570,10 +1623,10 @@ def index():
             content: '';
             position: absolute;
             bottom: 0;
-            left: 15%;
-            width: 70%;
+            left: 20%;
+            width: 60%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 8, 68, 0.35), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 8, 68, 0.3), transparent);
         }
 
         .logo-wrapper {
@@ -1584,19 +1637,19 @@ def index():
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 250px; height: 250px;
-            background: radial-gradient(circle, rgba(255, 8, 68, 0.18), transparent 70%);
-            filter: blur(40px);
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(255, 8, 68, 0.16), transparent 70%);
+            filter: blur(45px);
             animation: logoGlowPulse 6s ease-in-out infinite alternate;
             pointer-events: none;
         }
         @keyframes logoGlowPulse {
-            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
-            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.9; }
         }
 
         .header h1 {
-            font-size: 3.4rem;
+            font-size: 3.2rem;
             font-weight: 900;
             font-family: 'Orbitron', sans-serif;
             background: linear-gradient(135deg, var(--gold-1), var(--gold-3), var(--gold-2), var(--gold-6));
@@ -1615,24 +1668,24 @@ def index():
         }
 
         .header .sub {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: rgba(255, 235, 240, 0.45);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
             letter-spacing: 8px;
             text-transform: uppercase;
             margin-top: 5px;
-            text-shadow: 0 0 20px rgba(255, 8, 68, 0.1);
+            text-shadow: 0 0 20px rgba(255, 8, 68, 0.08);
         }
 
-        /* Rotating glowing halo in header */
+        /* Rotating halo */
         .halo {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 320px; height: 320px;
             border-radius: 50%;
-            border: 1px dashed rgba(255, 8, 68, 0.1);
-            animation: spin 45s linear infinite;
+            border: 1px dashed rgba(255, 8, 68, 0.08);
+            animation: spin 60s linear infinite;
             pointer-events: none;
         }
         @keyframes spin {
@@ -1651,25 +1704,26 @@ def index():
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 8px 24px;
+            padding: 10px 24px;
             border-radius: 50px;
-            background: rgba(10, 2, 4, 0.45);
-            backdrop-filter: blur(10px);
+            background: rgba(8, 8, 12, 0.6);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 8, 68, 0.15);
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-            transition: all 0.3s;
+            font-size: 0.82rem;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            font-family: 'Orbitron', sans-serif;
         }
         .status-indicator:hover {
-            border-color: rgba(255, 8, 68, 0.4);
+            border-color: rgba(255, 8, 68, 0.35);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 8, 68, 0.15);
+            box-shadow: 0 8px 25px rgba(255, 8, 68, 0.12);
         }
         .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             display: inline-block;
         }
@@ -1684,8 +1738,8 @@ def index():
             animation: pulse 1.2s infinite alternate;
         }
         @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.6; }
-            100% { transform: scale(1.15); opacity: 1; }
+            0% { transform: scale(0.9); opacity: 0.7; }
+            100% { transform: scale(1.2); opacity: 1; }
         }
         .status-indicator i {
             color: var(--gold-3);
@@ -1698,24 +1752,23 @@ def index():
             margin-top: 10px;
         }
 
-        /* Glass Cards with Laser Perimeter Beam */
+        /* Glass Cards with Border Beam */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border-radius: 20px;
-            padding: 26px 24px;
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 28px 26px;
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
         }
-        /* Laser path drawing glow on perimeter */
         .glass-card::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 1.5px;
             background: linear-gradient(135deg, transparent 30%, var(--gold-1) 50%, transparent 70%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -1724,7 +1777,7 @@ def index():
             pointer-events: none;
             background-size: 200% 200%;
             animation: borderBeam 4s linear infinite;
-            opacity: 0.6;
+            opacity: 0.5;
         }
         @keyframes borderBeam {
             0% { background-position: 0% 50%; }
@@ -1733,8 +1786,8 @@ def index():
         }
         .glass-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(255, 8, 68, 0.45);
-            box-shadow: 0 20px 45px rgba(0,0,0,0.85), 0 0 35px rgba(255, 8, 68, 0.08);
+            border-color: rgba(255, 8, 68, 0.4);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.9), 0 0 35px rgba(255, 8, 68, 0.08);
         }
         .glass-card h3 {
             color: var(--text-primary);
@@ -1742,12 +1795,13 @@ def index():
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 700;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             padding-bottom: 14px;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
             font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
         }
         .glass-card h3 i {
             color: var(--gold-3);
@@ -1774,18 +1828,18 @@ def index():
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.45);
-            padding: 10px 16px;
-            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 12px 18px;
+            border-radius: 14px;
             margin-bottom: 8px;
             border-left: 3px solid rgba(255, 8, 68, 0.4);
             transition: all 0.3s;
             animation: slideIn 0.35s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .target-item:hover {
-            background: rgba(255, 8, 68, 0.07);
-            border-left-color: var(--gold-3);
-            transform: translateX(3px);
+            background: rgba(255, 8, 68, 0.06);
+            border-left-color: var(--gold-2);
+            transform: translateX(4px);
         }
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(-15px); }
@@ -1795,42 +1849,42 @@ def index():
             color: #ffebf0;
             font-weight: 600;
             font-family: 'Orbitron', monospace;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
+            letter-spacing: 0.5px;
         }
         .target-item .remove-btn {
             background: none;
             border: none;
-            color: rgba(255, 107, 107, 0.7);
+            color: rgba(255, 107, 107, 0.6);
             cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
+            font-size: 0.95rem;
+            transition: all 0.2s;
             padding: 4px 8px;
-            border-radius: 6px;
+            border-radius: 8px;
         }
         .target-item .remove-btn:hover {
             color: #ff4757;
             background: rgba(255, 71, 87, 0.15);
-            transform: scale(1.15);
+            transform: scale(1.1);
         }
 
-        /* Empty state design */
         .empty-state {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px 15px;
+            padding: 35px 15px;
             color: rgba(255, 235, 240, 0.3);
             text-align: center;
         }
         .empty-state i {
             font-size: 2.2rem;
             margin-bottom: 12px;
-            color: rgba(255, 8, 68, 0.45);
-            text-shadow: 0 0 15px rgba(255, 8, 68, 0.15);
+            color: rgba(255, 8, 68, 0.35);
+            text-shadow: 0 0 15px rgba(255, 8, 68, 0.1);
         }
         .empty-state p {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             letter-spacing: 0.5px;
         }
 
@@ -1843,11 +1897,11 @@ def index():
         .input-group textarea {
             flex: 1;
             padding: 14px 18px;
-            border: 1px solid rgba(255, 8, 68, 0.22);
-            border-radius: 12px;
+            border: 1px solid rgba(255, 8, 68, 0.18);
+            border-radius: 14px;
             background: rgba(0, 0, 0, 0.6);
             color: var(--text-primary);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             outline: none;
             transition: all 0.3s;
             font-family: 'Inter', sans-serif;
@@ -1855,15 +1909,15 @@ def index():
             resize: vertical;
         }
         .input-group textarea:focus {
-            border-color: var(--gold-3);
+            border-color: var(--gold-2);
             box-shadow: 0 0 25px rgba(255, 8, 68, 0.18), inset 0 0 15px rgba(255, 8, 68, 0.05);
             background: rgba(0, 0, 0, 0.75);
         }
 
         .btn {
-            padding: 12px 28px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -1871,9 +1925,9 @@ def index():
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             position: relative;
             overflow: hidden;
             font-family: 'Inter', sans-serif;
@@ -1881,27 +1935,25 @@ def index():
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--gold-1), var(--gold-3), var(--gold-5));
-            background-size: 300% 300%;
-            animation: goldShift 8s ease-in-out infinite alternate;
+            background-size: 200% auto;
             color: #fff;
-            box-shadow: 0 0 25px rgba(255, 8, 68, 0.3);
-            border: 1px solid rgba(255, 8, 68, 0.25);
+            box-shadow: 0 0 25px rgba(255, 8, 68, 0.25);
+            border: 1px solid rgba(255, 8, 68, 0.2);
         }
         .btn-primary:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 35px rgba(255, 8, 68, 0.5);
-            border-color: var(--gold-3);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 35px rgba(255, 8, 68, 0.45);
+            background-position: right center;
         }
         .btn-danger {
             background: linear-gradient(135deg, #ff4757, #ff0844);
             color: #fff;
             box-shadow: 0 0 25px rgba(255, 8, 68, 0.25);
-            border: 1px solid rgba(255, 8, 68, 0.2);
+            border: 1px solid rgba(255, 8, 68, 0.18);
         }
         .btn-danger:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 35px rgba(255, 8, 68, 0.45);
-            border-color: #ff4757;
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 35px rgba(255, 8, 68, 0.4);
         }
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
@@ -1909,14 +1961,14 @@ def index():
             color: var(--text-primary);
         }
         .btn-secondary:hover {
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-2px) scale(1.01);
             background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 8, 68, 0.3);
+            border-color: rgba(255, 8, 68, 0.25);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
         }
         .btn-sm {
-            padding: 10px 22px;
-            font-size: 0.8rem;
+            padding: 11px 22px;
+            font-size: 0.78rem;
         }
         .btn-block {
             width: 100%;
@@ -1941,9 +1993,9 @@ def index():
         }
         .stats .stat {
             text-align: center;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 14px;
-            padding: 14px 10px;
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 16px;
+            padding: 16px 12px;
             flex: 1;
             border: 1px solid rgba(255, 8, 68, 0.08);
             transition: all 0.3s;
@@ -1953,7 +2005,7 @@ def index():
             box-shadow: 0 0 25px rgba(255, 8, 68, 0.07);
         }
         .stats .stat .num {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             font-weight: 900;
             font-family: 'Orbitron', monospace;
             background: linear-gradient(135deg, var(--gold-1), var(--gold-3));
@@ -1963,22 +2015,23 @@ def index():
             display: inline-block;
         }
         .stats .stat .label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 1.5px;
             margin-top: 4px;
             display: block;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         /* Active bots list */
         .account-list {
             max-height: 180px;
             overflow-y: auto;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             scrollbar-width: thin;
             scrollbar-color: var(--gold-3) transparent;
+            padding-right: 5px;
         }
         .account-list::-webkit-scrollbar {
             width: 4px;
@@ -1988,16 +2041,16 @@ def index():
             border-radius: 10px;
         }
         .account-list .acc-item {
-            padding: 8px 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
             transition: all 0.25s;
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             gap: 12px;
             font-family: 'Orbitron', monospace;
-            font-weight: 500;
-            color: #dcd8df;
+            font-weight: 600;
+            color: #e0dbe3;
         }
         .account-list .acc-item::before {
             content: '●';
@@ -2007,9 +2060,9 @@ def index():
             animation: pulse 1.5s infinite alternate;
         }
         .account-list .acc-item:hover {
-            background: rgba(255, 8, 68, 0.06);
+            background: rgba(255, 8, 68, 0.05);
             box-shadow: 0 0 20px rgba(255, 8, 68, 0.05);
-            padding-left: 18px;
+            padding-left: 20px;
             color: #fff;
         }
         .account-list .acc-item:last-child {
@@ -2026,28 +2079,28 @@ def index():
         .widget-card {
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 16px 14px;
+            border-radius: 18px;
+            padding: 18px 14px;
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
         .widget-card:hover {
             transform: translateY(-3px);
-            border-color: rgba(255, 8, 68, 0.35);
+            border-color: rgba(255, 8, 68, 0.3);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 8, 68, 0.05);
         }
         .widget-card .icon {
-            font-size: 1.4rem;
-            color: var(--gold-3);
-            margin-bottom: 5px;
+            font-size: 1.3rem;
+            color: var(--gold-2);
+            margin-bottom: 6px;
             text-shadow: 0 0 15px rgba(255, 8, 68, 0.25);
         }
         .widget-card .value {
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             font-weight: 700;
             font-family: 'Orbitron', monospace;
             background: linear-gradient(135deg, var(--gold-1), var(--gold-3));
@@ -2056,17 +2109,17 @@ def index():
             background-clip: text;
         }
         .widget-card .label {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-top: 2px;
+            margin-top: 3px;
             font-weight: 600;
         }
         .widget-bar {
             width: 100%;
             height: 3px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 4px;
             margin: 8px 0 4px;
             overflow: hidden;
@@ -2094,7 +2147,7 @@ def index():
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, rgba(255, 8, 68, 0.38), rgba(8, 2, 3, 0.85));
+            background: radial-gradient(circle at 35% 35%, rgba(255, 8, 68, 0.35), rgba(8, 2, 3, 0.9));
             box-shadow:
                 0 0 50px rgba(255, 8, 68, 0.25),
                 inset 0 0 60px rgba(255, 8, 68, 0.1);
@@ -2107,36 +2160,36 @@ def index():
             justify-content: center;
         }
         .ai-orb .orb i {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             color: var(--text-primary);
             text-shadow: 0 0 30px rgba(255, 8, 68, 0.6);
             animation: orbIconPulse 2.5s ease-in-out infinite alternate;
         }
         @keyframes orbFloat {
             0% { transform: translateY(0px) scale(1); }
-            100% { transform: translateY(-15px) scale(1.03); }
+            100% { transform: translateY(-12px) scale(1.02); }
         }
         @keyframes orbIconPulse {
             0% { transform: scale(0.92); opacity: 0.75; }
             100% { transform: scale(1.08); opacity: 1; }
         }
         .ai-orb:hover .orb {
-            transform: scale(1.1) translateY(-10px);
-            box-shadow: 0 0 80px rgba(255, 8, 68, 0.65), inset 0 0 40px rgba(255, 8, 68, 0.2);
-            border-color: rgba(255, 8, 68, 0.5);
+            transform: scale(1.1) translateY(-8px);
+            box-shadow: 0 0 80px rgba(255, 8, 68, 0.6), inset 0 0 40px rgba(255, 8, 68, 0.2);
+            border-color: rgba(255, 8, 68, 0.45);
         }
 
-        /* CRT Terminal in Bottom-Left */
+        /* CRT Terminal */
         .terminal {
             position: fixed;
             bottom: 40px;
             left: 40px;
             width: 320px;
             height: 180px;
-            background: rgba(8, 8, 12, 0.78);
+            background: rgba(6, 6, 9, 0.85);
             backdrop-filter: blur(14px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 8, 68, 0.2);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 8, 68, 0.18);
             padding: 14px 16px;
             box-shadow: var(--glass-shadow);
             z-index: 100;
@@ -2146,7 +2199,6 @@ def index():
             color: var(--text-secondary);
             pointer-events: none;
         }
-        /* CRT overlay trace */
         .terminal::before {
             content: " ";
             display: block;
@@ -2156,7 +2208,7 @@ def index():
             z-index: 2;
             background-size: 100% 3px;
             pointer-events: none;
-            opacity: 0.3;
+            opacity: 0.25;
         }
         .terminal .term-header {
             display: flex;
@@ -2166,7 +2218,7 @@ def index():
             padding-bottom: 6px;
             margin-bottom: 8px;
             font-weight: 700;
-            color: var(--gold-3);
+            color: var(--gold-2);
             letter-spacing: 1px;
         }
         .terminal .term-body {
@@ -2187,7 +2239,7 @@ def index():
             text-overflow: ellipsis;
         }
         .terminal .log-line .time {
-            color: var(--gold-3);
+            color: var(--gold-2);
             margin-right: 6px;
             font-weight: 500;
         }
@@ -2201,12 +2253,12 @@ def index():
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(10, 10, 20, 0.9);
+            background: rgba(6, 6, 9, 0.92);
             backdrop-filter: blur(16px);
             padding: 14px 30px;
-            border-radius: 12px;
+            border-radius: 14px;
             border: 1px solid rgba(255, 8, 68, 0.18);
-            border-left: 4px solid var(--gold-3);
+            border-left: 4px solid var(--gold-2);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
             color: var(--text-primary);
             font-size: 0.9rem;
@@ -2216,6 +2268,7 @@ def index():
             text-align: center;
             pointer-events: none;
             opacity: 0;
+            font-weight: 500;
         }
         .toast.show {
             transform: translateX(-50%) translateY(0);
@@ -2806,7 +2859,7 @@ def index():
             const input = document.getElementById('addTargetsInput');
             const raw = input.value.trim();
             if (!raw) { showToast('Please enter at least one UID', true); return; }
-            const uids = raw.split(',').map(s => s.trim()).filter(s => s.length > 0 && /^\d+$/.test(s));
+            const uids = raw.split(',').map(s => s.trim()).filter(s => s.length > 0 && /^\\d+$/.test(s));
             if (!uids.length) { showToast('No valid UIDs found', true); return; }
             try {
                 const result = await apiFetch('/start', { method: 'POST', body: JSON.stringify({ uids }) });
